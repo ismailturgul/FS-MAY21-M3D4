@@ -1,16 +1,20 @@
 const mainRow = document.querySelector(".main-row");
 const favRow = document.querySelector(".favorite-row");
+let books = [];
 
-const getBooks = function(){
-    fetch("https://striveschool-api.herokuapp.com/books").then(function(response){
-        return response.json();
-    }).then(function(data){
-        displayHTM(data);
-    }) 
+const getBooks = function () {
+  fetch("https://striveschool-api.herokuapp.com/books")
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      displayHTM(data);
+    })
+    .catch((err) => console.error(err.message));
 };
 const displayHTM = (datas) => {
-    datas.forEach((data) => {
-      const html = `
+  datas.forEach((data) => {
+    const html = `
       
       <div class="col-md-3 booksPerColumn">
       <div class="card mb-3 d-flex shadow-sm">
@@ -35,18 +39,24 @@ const displayHTM = (datas) => {
       </div>
     </div>
       
-      `;   
-      mainRow.insertAdjacentHTML("afterbegin", html);
+      `;
+    mainRow.insertAdjacentHTML("afterbegin", html);
 
-      document.getElementById("ignore").addEventListener('click', function(event) {
-        let buttonClicked = event.target
-         buttonClicked.parentElement.parentElement.parentElement.parentElement.remove()
-    }); 
+    document
+      .getElementById("ignore")
+      .addEventListener("click", function (event) {
+        let buttonClicked = event.target;
+        buttonClicked.parentElement.parentElement.parentElement.parentElement.remove();
+      });
     // manipulate it to push it maybe with the displayHTM function but instead of mainRow -> favRow
-      document.getElementById("addToCart").addEventListener('click', function(event) {
-        let buttonClicked = event.target
-        let divToShoppingCart= buttonClicked.parentElement.parentElement.parentElement.parentElement = "background: green";
-    });
-})
-}
-getBooks()
+    document
+      .getElementById("addToCart")
+      .addEventListener("click", function (event) {
+        let buttonClicked = event.target;
+        let divToShoppingCart =
+          (buttonClicked.parentElement.parentElement.parentElement.parentElement =
+            "background: green");
+      });
+  });
+};
+getBooks();
